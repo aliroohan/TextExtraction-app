@@ -1,0 +1,51 @@
+<main>
+  <div class="background">
+    <div class="card">
+      <h1>Sign Up</h1>
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <div class="success-message" *ngIf="showSuccessMessage">
+          Registration Successful!
+        </div>
+        <input type="text" formControlName="name" placeholder="Name" />
+        <input type="text" formControlName="username" placeholder="Username" />
+        <input type="email" formControlName="email" placeholder="Email" />
+        <div class="password-container">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            placeholder="Password"
+          />
+          <button type="button" class="toggle-password" (click)="togglePassword()">
+            <span class="material-symbols-outlined">
+              {{showPassword ? "visibility_off" : "visibility"}}
+              </span>
+          </button>
+        </div>
+        <div class="password-requirements">
+          <p class="requirement" [class.valid]="hasMinLength()">
+            At least 8 characters long
+          </p>
+          <p class="requirement" [class.valid]="hasLetter()">
+            Contains at least one letter
+          </p>
+          <p class="requirement" [class.valid]="hasNumber()">
+            Contains at least one number
+          </p>
+        </div>
+       
+        <button
+          class="sign-in-btn"
+          type="submit"
+          [disabled]="!signupForm.valid || isLoading"
+        >
+          <span *ngIf="!isLoading">Sign Up</span>
+          <div *ngIf="isLoading" class="spinner"></div>
+        </button>
+        <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+      </form>
+      <div class="signup-link" (click)="onLogin()">
+        <span>Already have an account?</span>
+      </div>
+    </div>
+  </div>
+</main>

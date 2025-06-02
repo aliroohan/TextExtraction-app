@@ -1,0 +1,29 @@
+<main>
+    <div class="background">
+        <div class="card">
+            <h1>Sign In</h1>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <input type="email" formControlName="email" placeholder="Email" />
+                <div class="password-container">
+                    <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="Password" />
+                    <button type="button" class="toggle-password" (click)="togglePassword()">
+                        <span class="material-symbols-outlined">
+                            {{showPassword ? "visibility_off" : "visibility"}}
+                        </span>
+                    </button>
+                </div>
+                <div class="options">
+
+                </div>
+                <button class="sign-in-btn" type="submit" [disabled]="!loginForm.valid || isLoading">
+                    <span *ngIf="!isLoading">Sign In</span>
+                    <div *ngIf="isLoading" class="spinner"></div>
+                </button>
+                <p *ngIf="errorMessage" class="error-message">{{errorMessage}}</p>
+            </form>
+            <div class="signup-link">
+                <span (click)="navigateToSignup()">Don't have an account?</span>
+            </div>
+        </div>
+    </div>
+</main>

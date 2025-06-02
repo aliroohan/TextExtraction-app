@@ -1,0 +1,186 @@
+// Variables
+$primary-color: #8e44ad;
+$primary-dark: #6c3483;
+$accent-color: #bb8fce;
+$white: #fff;
+$text-dark: #333;
+$text-gray: #666;
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  padding: 1rem 2rem;
+  background: linear-gradient(to right, $accent-color, $primary-dark);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .company-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: $white;
+      margin: 0;
+    
+
+      @media screen and (max-width: 400px) {
+        font-size: 18px;
+      }
+    }
+  }
+
+  .auth-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    align-items: center;
+  }
+
+}
+
+.btn {
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &-login {
+    background-color: transparent;
+    border: 2px solid $white;
+    color: $white;
+
+    &:hover {
+      background-color: $white;
+      border-color: $accent-color;
+      color: $accent-color;
+    }
+  }
+
+  &-signup {
+    background-color: transparent;
+    border: 2px solid $white;
+    color: $white;
+
+    &:hover {
+      background-color: $white;
+      border-color: $accent-color;
+      color: $accent-color;
+    }
+  }
+
+  @media screen and (max-width: 570px) {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 10px;
+  }
+}
+
+.main-content {
+  padding: 2rem;
+  height: calc(100vh - 60px);
+  background-image: linear-gradient(90deg, #bb8fce79 0%, #8d44adb2 100%);
+
+  @media screen and (max-width: 768px) {
+    height: calc(100vh - 100px);
+  }
+
+  @media screen and (max-width: 660px) {
+    height: calc(100vh - 50px);
+  }
+}
+
+.hero-section {
+  text-align: center;
+  padding: 4rem 2rem;
+
+  h2 {
+    font-size: 2.5rem;
+    color: $text-dark;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: 56px;
+
+    @media screen and (max-width: 768px) {
+      font-size: 40px;
+    }
+
+    @media screen and (max-width: 660px) {
+      font-size: 30px;
+    }
+
+    @media screen and (max-width: 570px) {
+      font-size: 25px;
+    }
+  }
+
+  p {
+    font-size: 1.3rem;
+    color: $text-gray;
+    max-width: 600px;
+    margin: 0 auto;
+
+    @media screen and (max-width: 660px) {
+      font-size: 1.2rem;
+    }
+
+    @media screen and (max-width: 570px) {
+      font-size: 16px;
+    }
+  }
+}
+
+.cta-button {
+  font-size: 1.2rem;
+  padding: 0.8rem 2.5rem;
+  background: linear-gradient(135deg, $primary-color 0%, $primary-dark 100%);
+  color: $white;
+  border: none;
+  border-radius: 25px;
+  margin-top: 2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(142, 68, 173, 0.3);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, $primary-dark 0%, $accent-color 100%);
+    transition: left 0.3s ease;
+    z-index: -1;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(142, 68, 173, 0.4);
+
+    &::before {
+      left: 0;
+    }
+  }
+
+  &:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(142, 68, 173, 0.3);
+  }
+
+  @media screen and (max-width: 570px) {
+    font-size: 1rem;
+    padding: 0.7rem 2rem;
+  }
+} 
