@@ -12,8 +12,66 @@ $error-color: #dc3545;
 $shadow: 0 4px 15px rgba(142, 68, 173, 0.15);
 $shadow-hover: 0 8px 25px rgba(142, 68, 173, 0.25);
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  padding: 1rem 2rem;
+  background: linear-gradient(to right, $accent-color, $primary-dark);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .company-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: $white;
+      margin: 0;
+
+      @media screen and (max-width: 400px) {
+        font-size: 18px;
+      }
+    }
+  }
+
+  .auth-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+}
+
+.btn {
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &-signout {
+    background-color: transparent;
+    border: 2px solid $white;
+    color: $white;
+
+    &:hover {
+      background-color: $white;
+      border-color: $accent-color;
+      color: $accent-color;
+    }
+  }
+
+  @media screen and (max-width: 570px) {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 10px;
+  }
+}
+
 .scan-container {
-  min-height: 100vh;
+  min-height: calc(100vh - 60px);
   background: linear-gradient(135deg, #bb8fce79 0%, #8d44adb2 100%);
   padding: 2rem;
 
@@ -54,58 +112,56 @@ $shadow-hover: 0 8px 25px rgba(142, 68, 173, 0.25);
   }
 }
 
+.main-content {
+  display: flex;
+  gap: 2rem;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 2rem;
+
+  @media (max-width: 1200px) {
+    flex-direction: column;
+    padding: 0 1rem;
+  }
+}
+
 .upload-section {
-  max-width: 800px;
-  margin: 0 auto 3rem auto;
+  width: 300px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 2rem;
+  align-self: flex-start;
+
+  @media (max-width: 1200px) {
+    width: 100%;
+    position: static;
+  }
 }
 
 .upload-card {
   background: $white;
   border-radius: 20px;
-  padding: 2rem;
+  padding: 1.5rem;
   box-shadow: $shadow;
   transition: all 0.3s ease;
 
-  &:hover {
-    box-shadow: $shadow-hover;
-    transform: translateY(-2px);
-  }
-
   h2 {
     color: $primary-color;
-    margin-bottom: 1.5rem;
-    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
     font-weight: 600;
-  }
-
-  @media (max-width: 768px) {
-    padding: 1.5rem;
   }
 }
 
 .upload-area {
   border: 3px dashed $border-color;
   border-radius: 15px;
-  padding: 3rem 2rem;
+  padding: 1.5rem 1rem;
   text-align: center;
   transition: all 0.3s ease;
   cursor: pointer;
   position: relative;
   overflow: hidden;
-
-  &:hover {
-    border-color: $accent-color;
-    background: linear-gradient(135deg, rgba(187, 143, 206, 0.05) 0%, rgba(142, 68, 173, 0.05) 100%);
-  }
-
-  &.has-file {
-    border-color: $primary-color;
-    background: linear-gradient(135deg, rgba(187, 143, 206, 0.1) 0%, rgba(142, 68, 173, 0.1) 100%);
-  }
-
-  @media (max-width: 768px) {
-    padding: 2rem 1rem;
-  }
 }
 
 .file-input {
@@ -250,39 +306,24 @@ $shadow-hover: 0 8px 25px rgba(142, 68, 173, 0.25);
 }
 
 .content-section {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   gap: 2rem;
-
-  @media (max-width: 968px) {
-    grid-template-columns: 1fr;
-  }
 }
 
-.preview-section,
-.results-section {
+.preview-section {
   background: $white;
   border-radius: 20px;
   padding: 2rem;
   box-shadow: $shadow;
   transition: all 0.3s ease;
 
-  &:hover {
-    box-shadow: $shadow-hover;
-    transform: translateY(-2px);
-  }
-
   h3 {
     color: $primary-color;
     margin-bottom: 1.5rem;
     font-size: 1.3rem;
     font-weight: 600;
-  }
-
-  @media (max-width: 768px) {
-    padding: 1.5rem;
   }
 }
 
@@ -291,10 +332,11 @@ $shadow-hover: 0 8px 25px rgba(142, 68, 173, 0.25);
   
   .preview-image {
     max-width: 100%;
-    max-height: 400px;
+    max-height: 700px;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    object-fit: contain;
 
     &:hover {
       transform: scale(1.02);
@@ -303,108 +345,54 @@ $shadow-hover: 0 8px 25px rgba(142, 68, 173, 0.25);
   }
 }
 
-.data-table-container {
-  overflow-x: auto;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+.results-section {
+  background: $white;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: $shadow;
+  transition: all 0.3s ease;
+
+  h3 {
+    color: $primary-color;
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
 }
 
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.9rem;
-  background: $white;
+.extracted-text {
+  background: $light-gray;
+  border-radius: 10px;
+  padding: 1.5rem;
+  max-height: 400px;
+  overflow-y: auto;
 
-  thead {
-    background: linear-gradient(135deg, $accent-color 0%, $primary-color 100%);
-    
-    th {
-      padding: 1rem;
-      text-align: left;
-      font-weight: 600;
-      color: $white;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      font-size: 0.8rem;
-
-      &:first-child {
-        border-top-left-radius: 10px;
-      }
-
-      &:last-child {
-        border-top-right-radius: 10px;
-      }
-    }
+  pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: $text-dark;
   }
+}
 
-  tbody {
-    .data-row {
-      transition: all 0.3s ease;
-
-      &:nth-child(even) {
-        background: #f8f9fa;
-      }
-
-      &:hover {
-        background: linear-gradient(135deg, rgba(187, 143, 206, 0.1) 0%, rgba(142, 68, 173, 0.1) 100%);
-        transform: translateX(5px);
-      }
-
-      &:last-child {
-        td:first-child {
-          border-bottom-left-radius: 10px;
-        }
-
-        td:last-child {
-          border-bottom-right-radius: 10px;
-        }
-      }
-    }
-
-    td {
-      padding: 1rem;
-      border-bottom: 1px solid $border-color;
-      vertical-align: top;
-
-      &.field-name {
-        font-weight: 600;
-        color: $primary-color;
-        width: 30%;
-        background: rgba(187, 143, 206, 0.05);
-      }
-
-      &.field-value {
-        color: $text-dark;
-        word-break: break-word;
-
-        pre {
-          background: #f8f9fa;
-          padding: 0.5rem;
-          border-radius: 5px;
-          font-size: 0.8rem;
-          margin: 0;
-          white-space: pre-wrap;
-          overflow-x: auto;
-        }
-      }
-    }
-  }
+// Remove unused styles
+.data-table-container,
+.data-table,
+.field-name,
+.field-value {
+  display: none;
 }
 
 .messages {
   position: fixed;
-  top: 2rem;
+  top: 7rem;
   right: 2rem;
   z-index: 1000;
   max-width: 400px;
 
-  @media (max-width: 768px) {
-    position: relative;
-    top: auto;
-    right: auto;
-    max-width: none;
-    margin-top: 2rem;
-  }
 }
 
 .message {

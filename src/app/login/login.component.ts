@@ -30,7 +30,7 @@ export class LoginComponent {
         console.log(res);
         localStorage.setItem('user', JSON.stringify(res));
         this.isLoading = false;
-        this.router.navigate(['/']);
+        this.router.navigate(['/scan']);
       }, (err: any) => {
         this.errorMessage = err.error.message;
         this.isLoading = false;

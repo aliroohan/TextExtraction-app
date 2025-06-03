@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ImageService } from '../Services/image.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -14,7 +15,7 @@ interface OCRData {
   templateUrl: './scan-page.component.html',
   styleUrl: './scan-page.component.scss'
 })
-export class ScanPageComponent {
+export class ScanPageComponent implements OnInit {
   selectedImage: File | null = null;
   imagePreview: string | null = null;
   isProcessing: boolean = false;
@@ -22,7 +23,23 @@ export class ScanPageComponent {
   errorMessage: string = '';
   successMessage: string = '';
 
-  constructor(private imageService: ImageService) {}
+  constructor(
+    private imageService: ImageService,
+    private router: Router
+  ) {}
+
+  ngOnInit() {
+    // Check if user is logged in
+    const token = localStorage.getItem('user');
+    if (!token) {
+      this.router.navigate(['/']);
+    }
+  }
+
+  onSignOut() {
+    localStorage.removeItem('user');
+    this.router.navigate(['/']);
+  }
 
   onImageSelected(event: any): void {
     const file = event.target.files[0];
@@ -31,6 +48,7 @@ export class ScanPageComponent {
       this.errorMessage = '';
       this.successMessage = '';
       this.ocrData = null;
+      this.imagePreview = null;
 
       // Create image preview
       const reader = new FileReader();
@@ -56,8 +74,15 @@ export class ScanPageComponent {
         this.isProcessing = false;
         if (response.body) {
           this.ocrData = response.body;
+          // Update image preview with the base64 image from response
+          if (response.body.image_base64) {
+            this.imagePreview = 'data:image/jpeg;base64,' + response.body.image_base64;
+          }
           this.successMessage = 'Image processed successfully!';
         }
+        setTimeout(() => {
+          this.successMessage = '';
+        }, 3000);
       },
       error: (error: HttpErrorResponse) => {
         this.isProcessing = false;

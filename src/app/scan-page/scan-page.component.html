@@ -1,102 +1,99 @@
+<!-- Header Section -->
+<header class="header">
+  <div class="logo-container">
+    <h2 class="company-title">Smart OCR</h2>
+  </div>
+  <div class="auth-buttons">
+    <button class="btn btn-signout" (click)="onSignOut()">Sign Out</button>
+  </div>
+</header>
+
+<!-- Main Content -->
 <div class="scan-container">
   <div class="scan-header">
     <h1>Document Scanner</h1>
     <p>Upload an image to extract text and data using OCR technology</p>
   </div>
 
-  <!-- Upload Section -->
-  <div class="upload-section">
-    <div class="upload-card">
-      <h2>Upload Image</h2>
-      <div class="upload-area" [class.has-file]="selectedImage">
-        <input 
-          type="file" 
-          id="imageInput" 
-          accept="image/*" 
-          (change)="onImageSelected($event)"
-          class="file-input"
-        >
-        <label for="imageInput" class="upload-label">
-          <div class="upload-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
-              <circle cx="12" cy="13" r="3"/>
+  <div class="main-content">
+    <!-- Upload Section -->
+    <div class="upload-section">
+      <div class="upload-card">
+        <h2>Upload Image</h2>
+        <div class="upload-area" [class.has-file]="selectedImage">
+          <input 
+            type="file" 
+            id="imageInput" 
+            accept="image/*" 
+            (change)="onImageSelected($event)"
+            class="file-input"
+          >
+          <label for="imageInput" class="upload-label">
+            <div class="upload-icon">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+                <circle cx="12" cy="13" r="3"/>
+              </svg>
+            </div>
+            <div class="upload-text">
+              <span *ngIf="!selectedImage">Click to upload an image</span>
+              <span *ngIf="selectedImage">{{ selectedImage.name }}</span>
+            </div>
+            <div class="upload-hint">Supports JPG, PNG, GIF files</div>
+          </label>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons" *ngIf="selectedImage">
+          <button 
+            class="btn btn-process" 
+            (click)="processImage()" 
+            [disabled]="isProcessing"
+          >
+            <span *ngIf="!isProcessing">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9"/>
+                <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+              Process Image
+            </span>
+            <span *ngIf="isProcessing">
+              <div class="spinner"></div>
+              Processing...
+            </span>
+          </button>
+          <button class="btn btn-clear" (click)="clearData()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 6h18"/>
+              <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+              <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
             </svg>
-          </div>
-          <div class="upload-text">
-            <span *ngIf="!selectedImage">Click to upload an image</span>
-            <span *ngIf="selectedImage">{{ selectedImage.name }}</span>
-          </div>
-          <div class="upload-hint">Supports JPG, PNG, GIF files</div>
-        </label>
-      </div>
-    </div>
-
-    <!-- Action Buttons -->
-    <div class="action-buttons" *ngIf="selectedImage">
-      <button 
-        class="btn btn-process" 
-        (click)="processImage()" 
-        [disabled]="isProcessing"
-      >
-        <span *ngIf="!isProcessing">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9"/>
-            <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9"/>
-            <path d="m9 12 2 2 4-4"/>
-          </svg>
-          Process Image
-        </span>
-        <span *ngIf="isProcessing">
-          <div class="spinner"></div>
-          Processing...
-        </span>
-      </button>
-      <button class="btn btn-clear" (click)="clearData()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M3 6h18"/>
-          <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
-          <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-        </svg>
-        Clear All
-      </button>
-    </div>
-  </div>
-
-  <!-- Content Section -->
-  <div class="content-section" *ngIf="imagePreview || ocrData">
-    <!-- Image Preview -->
-    <div class="preview-section" *ngIf="imagePreview">
-      <div class="preview-card">
-        <h3>Image Preview</h3>
-        <div class="image-container">
-          <img [src]="imagePreview" alt="Selected image" class="preview-image">
+            Clear All
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- Results Section -->
-    <div class="results-section" *ngIf="ocrData">
-      <div class="results-card">
-        <h3>Extracted Data</h3>
-        <div class="data-table-container">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Field</th>
-                <th>Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let key of getObjectKeys(ocrData)" class="data-row">
-                <td class="field-name">{{ key }}</td>
-                <td class="field-value">
-                  <pre *ngIf="typeof ocrData[key] === 'object'; else simpleValue">{{ formatValue(ocrData[key]) }}</pre>
-                  <ng-template #simpleValue>{{ ocrData[key] }}</ng-template>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+    <!-- Content Section -->
+    <div class="content-section" *ngIf="imagePreview || ocrData">
+      <!-- Image Preview -->
+      <div class="preview-section" *ngIf="imagePreview">
+        <div class="preview-card">
+          <h3>Image Preview</h3>
+          <div class="image-container">
+            <img [src]="imagePreview" alt="Selected image" class="preview-image">
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Section -->
+      <div class="results-section" *ngIf="ocrData">
+        <div class="results-card">
+          <h3>Extracted Text</h3>
+          <div class="extracted-text">
+            <pre>{{ ocrData['extracted_text']['raw_text'] }}</pre>
+          </div>
         </div>
       </div>
     </div>
