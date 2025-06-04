@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ImageService } from '../Services/image.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 interface OCRData {
   [key: string]: any;
@@ -18,6 +19,8 @@ interface OCRData {
 export class ScanPageComponent implements OnInit {
   selectedImage: File | null = null;
   imagePreview: string | null = null;
+  pdfUrl: SafeResourceUrl | null = null;
+  isPdfFile: boolean = false;
   isProcessing: boolean = false;
   ocrData: OCRData | null = null;
   errorMessage: string = '';
@@ -25,7 +28,8 @@ export class ScanPageComponent implements OnInit {
 
   constructor(
     private imageService: ImageService,
-    private router: Router
+    private router: Router,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -49,19 +53,29 @@ export class ScanPageComponent implements OnInit {
       this.successMessage = '';
       this.ocrData = null;
       this.imagePreview = null;
+      this.pdfUrl = null;
 
-      // Create image preview
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.imagePreview = e.target?.result as string;
-      };
-      reader.readAsDataURL(file);
+      // Check if the file is a PDF
+      this.isPdfFile = file.type === 'application/pdf';
+
+      if (this.isPdfFile) {
+        // Create PDF preview
+        const pdfBlobUrl = URL.createObjectURL(file);
+        this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfBlobUrl);
+      } else {
+        // Create image preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.imagePreview = e.target?.result as string;
+        };
+        reader.readAsDataURL(file);
+      }
     }
   }
 
   processImage(): void {
     if (!this.selectedImage) {
-      this.errorMessage = 'Please select an image first';
+      this.errorMessage = 'Please select an image or PDF first';
       return;
     }
 
@@ -74,11 +88,24 @@ export class ScanPageComponent implements OnInit {
         this.isProcessing = false;
         if (response.body) {
           this.ocrData = response.body;
-          // Update image preview with the base64 image from response
-          if (response.body.image_base64) {
-            this.imagePreview = 'data:image/jpeg;base64,' + response.body.image_base64;
+          
+          // Handle annotated file from backend
+          if (response.body.annotated_file_base64) {
+            // Check if the original file was a PDF
+            if (this.isPdfFile) {
+              // Handle annotated PDF from backend
+              const pdfBlob = this.base64ToBlob(response.body.annotated_file_base64, 'application/pdf');
+              const pdfBlobUrl = URL.createObjectURL(pdfBlob);
+              this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfBlobUrl);
+              this.imagePreview = null;
+            } else {
+              // Handle annotated image from backend
+              this.imagePreview = 'data:image/jpeg;base64,' + response.body.annotated_file_base64;
+              this.pdfUrl = null;
+            }
           }
-          this.successMessage = 'Image processed successfully!';
+          
+          this.successMessage = `${this.isPdfFile ? 'PDF' : 'Image'} processed successfully!`;
         }
         setTimeout(() => {
           this.successMessage = '';
@@ -86,7 +113,7 @@ export class ScanPageComponent implements OnInit {
       },
       error: (error: HttpErrorResponse) => {
         this.isProcessing = false;
-        this.errorMessage = 'Error processing image: ' + (error.error?.message || error.message);
+        this.errorMessage = 'Error processing file: ' + (error.error?.message || error.message);
       }
     });
   }
@@ -94,10 +121,22 @@ export class ScanPageComponent implements OnInit {
   clearData(): void {
     this.selectedImage = null;
     this.imagePreview = null;
+    this.pdfUrl = null;
+    this.isPdfFile = false;
     this.ocrData = null;
     this.errorMessage = '';
     this.successMessage = '';
     this.isProcessing = false;
+  }
+
+  private base64ToBlob(base64: string, contentType: string): Blob {
+    const byteCharacters = atob(base64);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], { type: contentType });
   }
 
   getObjectKeys(obj: any): string[] {
