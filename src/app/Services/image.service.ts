@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ImageService {
-  private baseUrl = 'http://51.21.199.143:3000';
+  private baseUrl = 'http://127.0.0.1:5000';
 
   constructor(private http: HttpClient) { }
 
