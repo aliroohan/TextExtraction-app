@@ -1,0 +1,16 @@
+<app-header></app-header>
+<div class="back-button" (click)="goBack()">
+    <span class="material-symbols-outlined">
+        arrow_back_ios
+    </span>
+    <span>BACK</span>
+</div>
+<h1 class="file-name">{{name.split('.')[0]}}</h1>
+<div class="container">
+    
+    <app-text [analysis]="this.file"></app-text>
+    <app-preview [imagePreview]="this.file.file.analysisData.annotated_file_base64"
+        [pdfUrl]="this.file.file.analysisData.annotated_file_base64"
+        [isPdfFile]="this.file.file.fileObj.type === 'application/pdf'"
+        [fileName]="this.file.file.analysisData.file_name"></app-preview>
+</div>

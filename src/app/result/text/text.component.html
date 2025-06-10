@@ -1,0 +1,16 @@
+<div class="container">
+    <div class="top-bar">
+        <span>Extracted Text</span>
+        <div class="copy" [cdkCopyToClipboard]="textContent['raw_text']"
+        (cdkCopyToClipboardCopied)="onCopySuccess($event)">
+            <span class="material-symbols-outlined">
+                content_copy
+                </span>
+        </div>
+    </div>
+    <div class="extracted-text">
+        {{this.textContent['raw_text']}}
+    </div>
+</div>
+
+<app-copytext *ngIf="copySuccess"></app-copytext>

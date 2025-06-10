@@ -1,0 +1,53 @@
+<div class="file-card"
+     [ngClass]="{
+       'uploaded': processingState === 'uploaded',
+       'processing': processingState === 'processing',
+       'processed': processingState === 'processed',
+       'error': processingState === 'error',
+       'pressed': processingState === 'processed'
+     }" (click)="goToResults()" >
+  <div class="file-preview">
+    <!-- Show image or text snippet here -->
+    <img *ngIf="data.type.startsWith('image/')" [src]="data.previewUrl" alt="Preview" />
+    <pdf-viewer
+      *ngIf="data.type === 'application/pdf'"
+      [src]="data.previewUrl"
+      [render-text]="true"
+      [original-size]="false"
+      [show-all]="false"
+      [fit-to-page]="false"
+      [zoom]="1"
+      [page]="1"
+      [show-borders]="false"
+      style="width: 100%; height: 100%;"
+    ></pdf-viewer>
+    <div *ngIf="!data.type.startsWith('image/') && data.type !== 'application/pdf'">{{ data.snippet }}</div>
+  </div>
+  <div class="file-info">
+    <div class="file-title">
+      <span>{{ data.name }}</span>
+    </div>
+    <div class="file-status">
+      <ng-container [ngSwitch]="processingState">
+        <span *ngSwitchCase="'uploaded'" class="status uploaded">
+          <svg width="18" height="18" fill="#007bff"><circle cx="9" cy="9" r="8"/></svg>
+          Uploaded
+        </span>
+        <span *ngSwitchCase="'processing'" class="status processing">
+          <span class="loader"></span> Processing...
+        </span>
+        <span *ngSwitchCase="'processed'" class="status processed">
+          <svg width="18" height="18" fill="#28a745"><polyline points="4,10 8,15 16,5" stroke="#28a745" stroke-width="2" fill="none"/></svg>
+          Processed
+        </span>
+        <span *ngSwitchCase="'error'" class="status error">
+          <svg width="18" height="18" fill="#dc3545"><circle cx="9" cy="9" r="8"/></svg>
+          Error
+        </span>
+      </ng-container>
+    </div>
+    <div class="file-meta">
+      <span>{{ data.date | date:'MM-dd-yyyy hh:mm a' }}</span>
+    </div>
+  </div>
+</div>

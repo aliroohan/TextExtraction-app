@@ -1,0 +1,16 @@
+<div class="nav-container">
+    <div class="nav-item" (click)="onTabClick('images')" [ngClass]="{'active': activeTab === 'images'}">
+        <span class="material-symbols-outlined">
+            image
+            </span>
+        <span>Images</span>
+    </div>
+    
+    
+    <div class="nav-item" (click)="onTabClick('documents')" [ngClass]="{'active': activeTab === 'documents'}">
+        <span class="material-symbols-outlined">
+            description
+            </span>
+        <span>Documents</span>
+    </div>
+</div>

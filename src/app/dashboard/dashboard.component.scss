@@ -1,0 +1,43 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 100px;
+    height: 100vh;
+
+    @media screen and (max-width: 570px) {
+        margin: 0 20px;
+        align-items: center;
+    }
+}
+
+.file-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 2rem;
+    justify-content: flex-start;
+    min-height: 200px;
+    width: 100%;
+}
+
+@media screen and (max-width: 570px) {
+    .file-cards {
+        
+        padding: 1rem;
+        
+        justify-content: center;
+    }
+}
+
+.file-cards {
+    
+    margin-top: 2rem;
+
+    p {
+        color: #666;
+        font-size: 1.1rem;
+        text-align: center;
+        padding: 2rem;
+    }
+}
+

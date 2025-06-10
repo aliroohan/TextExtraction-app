@@ -1,0 +1,35 @@
+.back-button{
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 20px;
+    cursor: pointer;
+    width: fit-content;
+    span{
+        font-size: 30px;
+        font-weight: 600;
+    }
+    &:hover {
+
+        border-bottom: 2px solid #000;
+    }
+}
+
+h1{
+    font-size: 30px;
+    font-weight: 600;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+.container{
+    padding: 30px 20px;
+    display: flex;
+    gap: 40px;
+    app-text{
+        flex: 1 0 67%;
+    }
+
+    app-preview{
+        flex: 0 1 33%;
+    }
+}

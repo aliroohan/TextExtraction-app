@@ -1,0 +1,28 @@
+.container {
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+
+
+    .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 20px;
+        span{
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .copy{
+            cursor: pointer;
+        }
+    }
+    
+    
+    .extracted-text {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+}

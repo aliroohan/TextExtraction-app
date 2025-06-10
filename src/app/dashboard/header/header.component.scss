@@ -1,0 +1,62 @@
+$primary-color: #8e44ad;
+$primary-dark: #6c3483;
+$accent-color: #bb8fce;
+$white: #fff;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    padding: 1rem 2rem;
+    background: linear-gradient(to right, $accent-color, $primary-dark);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+  
+      .company-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: $white;
+        margin: 0;
+  
+        @media screen and (max-width: 400px) {
+          font-size: 18px;
+        }
+      }
+    }
+  
+    .auth-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+  }
+  
+  .btn {
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  
+    &-signout {
+      background-color: transparent;
+      border: 2px solid $white;
+      color: $white;
+  
+      &:hover {
+        background-color: $white;
+        border-color: $accent-color;
+        color: $accent-color;
+      }
+    }
+  
+    @media screen and (max-width: 570px) {
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 10px;
+    }
+  }

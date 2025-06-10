@@ -1,0 +1,8 @@
+<app-header></app-header>
+<div class="container">
+    <app-nav (tabChange)="onTabChange($event)"></app-nav>
+    <div class="file-cards">
+        <app-upload (fileSelected)="onFileUploaded($event)"></app-upload>
+        <app-file-card *ngFor="let file of getFilteredFiles()" [file]="file"></app-file-card>
+    </div>
+</div>

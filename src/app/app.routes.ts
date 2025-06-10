@@ -2,7 +2,8 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
-import { ScanPageComponent } from './scan-page/scan-page.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ResultComponent } from './result/result.component';
 
 export const routes: Routes = [
     {
@@ -23,7 +24,11 @@ export const routes: Routes = [
         component: SignupComponent
     },
     {
-        path: 'scan',
-        component: ScanPageComponent
+        path: 'results',
+        component: ResultComponent
+    },
+    {
+        path: 'dashboard',
+        component: DashboardComponent
     }
 ];
