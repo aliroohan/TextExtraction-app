@@ -84,7 +84,7 @@ export class FileCardComponent implements OnInit {
   }
 
   goToResults() {
-    if (!this.file.processed) {
+    if (this.processingState !== 'processed') {
       return;
     }
     this.router.navigate(['/results'], { state: { file: this.file } });
