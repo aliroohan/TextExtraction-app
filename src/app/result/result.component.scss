@@ -6,7 +6,7 @@
     cursor: pointer;
     width: fit-content;
     span{
-        font-size: 30px;
+        font-size: 20px;
         font-weight: 600;
     }
     &:hover {
@@ -27,9 +27,37 @@ h1{
     gap: 40px;
     app-text{
         flex: 1 0 67%;
+        @media screen and (max-width: 1400px) {
+            flex: 1 0 60%;
+        }
+        @media screen and (max-width: 1024px) {
+            flex: 1 0 55%;
+        }
+        @media screen and (max-width: 950px) {
+            flex: 1 0 100%;
+            width: 100%;
+        }
     }
 
     app-preview{
         flex: 0 1 33%;
+        @media screen and (max-width: 1400px) {
+            flex: 0 1 40%;
+        }
+        @media screen and (max-width: 1024px) {
+            flex: 0 1 45%;
+        }
+        @media screen and (max-width: 950px) {
+            flex: 0 1 100%;
+            width: 100%;
+        }
+    }
+    @media screen and (max-width: 950px) {
+        padding: 30px 50px;
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+    @media screen and (max-width: 500px) {
+        padding: 30px 20px;
     }
 }
