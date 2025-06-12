@@ -20,8 +20,8 @@ export class ResultComponent {
   ngOnInit(){
     if (history.state){
      this.file = history.state;
-     console.log(this.file)
     }
+    console.log(this.file);
     this.name = this.file.file.fileObj.name;
   }
 

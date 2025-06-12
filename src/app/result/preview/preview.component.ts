@@ -21,6 +21,8 @@ export class PreviewComponent {
 
   ngOnInit() {
     // Set the worker source
+    console.log(this.pdfUrl);
+    console.log(this.imagePreview); 
     this.workerSrc = 'assets/pdf.worker.js';
     if(this.isPdfFile){
       this.pdfUrl = 'data:application/pdf;base64,' + this.pdfUrl;

@@ -57,6 +57,7 @@ export class FileCardComponent implements OnInit {
       if (response?.body) {
         this.processingState = 'processed';
         this.processingMessage = 'Processed';
+        console.log(response.body);
         
         // Store analysis data in the service
         this.dataService.updateFileStatus(
