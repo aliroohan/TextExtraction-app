@@ -17,26 +17,32 @@ export class DashboardComponent implements OnInit, OnDestroy {
   files: any[] = [];
   activeTab = 'images';
   private subscription: Subscription;
+  processingQueueStatus = { queueLength: 0, isProcessing: false };
 
   constructor(private dataService: DataService) {
     this.subscription = this.dataService.getProcessedFiles().subscribe(files => {
       this.files = files;
+      // Update processing queue status
+      this.processingQueueStatus = this.dataService.getProcessingQueueStatus();
     });
   }
 
   ngOnInit() {
     // Data will be loaded automatically by the service
+    console.log('Dashboard initialized - background processing is active');
   }
 
   onFileUploaded(file: any) {
     this.dataService.addFile({
       ...file,
-      processed: false
+      processed: false,
+      processingState: 'uploaded'
     });
   }
 
   onTabChange(tab: string) {
     this.activeTab = tab;
+    console.log(`Switched to ${tab} tab - processing continues in background`);
   }
 
   getFilteredFiles() {
@@ -49,6 +55,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       return this.files.filter(file => file.fileObj.type === 'application/pdf');
     }
     return [];
+  }
+
+  onFileDeleted(fileName: string) {
+    // File is already removed from service in FileCardComponent
+    console.log(`File ${fileName} deleted`);
   }
 
   ngOnDestroy() {
