@@ -8,6 +8,20 @@
     background: white;
     border-radius: 8px;
     padding: 1rem;
+
+    h3 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        border-bottom: 1px solid rgba(0, 180, 216, 0.2);
+        margin-bottom: 20px;
+        background-color: rgba(0, 180, 216, 0.05);
+        border-radius: 8px;
+        font-size: 20px;
+        font-weight: 600;
+        color: #0077b6;
+    }
   }
 
   .file-container {
@@ -35,10 +49,11 @@
     text-align: center;
     padding: 2rem;
     color: #666;
-  }
 
-  .pdf-fallback svg {
-    margin-bottom: 1rem;
+    svg {
+        margin-bottom: 1rem;
+        color: #00b4d8;
+    }
   }
 
   ::ng-deep .ng2-pdf-viewer-container {

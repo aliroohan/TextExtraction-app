@@ -1,7 +1,7 @@
 // Variables
-$primary-color: #8e44ad;
-$primary-dark: #6c3483;
-$accent-color: #bb8fce;
+$primary-color: #00b4d8;  // Bright teal
+$primary-dark: #0077b6;   // Deep teal
+$accent-color: #D82400;   // Warm coral
 $white: #fff;
 $text-dark: #333;
 $text-gray: #666;
@@ -85,7 +85,7 @@ $text-gray: #666;
 .main-content {
   padding: 2rem;
   height: calc(100vh - 60px);
-  background-image: linear-gradient(90deg, #bb8fce79 0%, #8d44adb2 100%);
+  background-image: linear-gradient(90deg, rgba(0, 180, 216, 0.1) 0%, rgba(0, 119, 182, 0.2) 100%);
 
   @media screen and (max-width: 768px) {
     height: calc(100vh - 100px);
@@ -149,7 +149,7 @@ $text-gray: #666;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(142, 68, 173, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 180, 216, 0.3);
   position: relative;
   overflow: hidden;
 
@@ -167,7 +167,7 @@ $text-gray: #666;
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(142, 68, 173, 0.4);
+    box-shadow: 0 8px 25px rgba(0, 180, 216, 0.4);
 
     &::before {
       left: 0;
@@ -176,7 +176,7 @@ $text-gray: #666;
 
   &:active {
     transform: translateY(-1px);
-    box-shadow: 0 4px 15px rgba(142, 68, 173, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 180, 216, 0.3);
   }
 
   @media screen and (max-width: 570px) {

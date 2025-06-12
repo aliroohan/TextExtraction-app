@@ -8,15 +8,27 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 10px;
-        border-bottom: 1px solid #ccc;
+        padding: 15px;
+        border-bottom: 1px solid rgba(0, 180, 216, 0.2);
         margin-bottom: 20px;
-        span{
+        background-color: rgba(0, 180, 216, 0.05);
+        border-radius: 8px;
+
+        span {
             font-size: 20px;
             font-weight: 600;
+            color: #0077b6;
         }
-        .copy{
+
+        .copy {
             cursor: pointer;
+            color: #00b4d8;
+            transition: all 0.3s ease;
+
+            &:hover {
+                color: #0077b6;
+                transform: scale(1.1);
+            }
         }
     }
     

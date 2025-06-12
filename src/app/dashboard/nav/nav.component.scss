@@ -14,12 +14,12 @@
         cursor: pointer;
         transition: all 0.3s ease;
         &:hover {
-            color: #8e44ad;
+            color: #00b4d8;
             transform: scale(1.05);
         }
         &.active {
-            color: #8e44ad;
-            border-bottom: 2px solid #8e44ad;
+            color: #00b4d8;
+            border-bottom: 2px solid #00b4d8;
             
         }
 
