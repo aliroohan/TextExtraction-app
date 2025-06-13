@@ -18,7 +18,6 @@ export class TextComponent {
 
   ngOnInit(){
     this.textContent = this.analysis.file.analysisData.extracted_text;
-    console.log(this.textContent)
   }
   onCopySuccess(successful: boolean) {
     this.copySuccess = successful;

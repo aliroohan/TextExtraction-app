@@ -62,6 +62,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
     console.log(`File ${fileName} deleted`);
   }
 
+  onFileRetry(file: any) {
+    // First remove the file from any existing processing state
+    this.dataService.removeFile(file.fileObj.name);
+    
+    // Then add it back as a new file to process
+    setTimeout(() => {
+      this.dataService.addFile({
+        ...file,
+        processed: false,
+        processingState: 'uploaded'
+      });
+      console.log(`Retrying processing for file: ${file.fileObj.name}`);
+    }, 100);
+  }
+
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();

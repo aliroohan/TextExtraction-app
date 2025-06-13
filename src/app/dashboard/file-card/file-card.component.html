@@ -48,6 +48,19 @@
     </div>
     <div class="file-meta">
       <span>{{ data.date | date:'MM-dd-yyyy hh:mm a' }}</span>
+      <div class="file-actions">
+        <button *ngIf="processingState === 'error'" (click)="retryProcessing($event)" class="action-btn retry-btn" title="Retry Processing">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 4v6h-6M1 20v-6h6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button (click)="deleteFile($event)" class="action-btn delete-btn" title="Delete File">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
 </div>

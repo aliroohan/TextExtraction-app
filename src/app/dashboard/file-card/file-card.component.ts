@@ -17,6 +17,7 @@ export type ProcessingState = 'uploaded' | 'processing' | 'processed' | 'error';
 export class FileCardComponent implements OnInit, OnDestroy {
   @Input() file: any;
   @Output() delete = new EventEmitter<void>();
+  @Output() retry = new EventEmitter<void>();
 
   isEditing = false;
   processingState: ProcessingState = 'uploaded';
@@ -78,10 +79,18 @@ export class FileCardComponent implements OnInit, OnDestroy {
     // Optionally emit an event or update the file name elsewhere
   }
 
-  deleteFile() {
+  deleteFile(event: Event) {
+    event.stopPropagation(); // Prevent card click event
     // Remove from service
     this.dataService.removeFile(this.data.name);
     this.delete.emit();
+  }
+
+  retryProcessing(event: Event) {
+    event.stopPropagation(); // Prevent card click event
+    this.processingState = 'processing';
+    this.updateProcessingMessage();
+    this.retry.emit(this.file);
   }
 
   goToResults() {

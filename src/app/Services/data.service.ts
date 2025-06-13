@@ -27,34 +27,8 @@ export class DataService {
   private isProcessingActive = false;
 
   constructor(private imageService: ImageService) {
-    // Load saved data from localStorage on service initialization
-    this.loadSavedData();
     // Start the background processing
     this.startBackgroundProcessing();
-  }
-
-  private loadSavedData() {
-    const savedFiles = localStorage.getItem('processedFiles');
-    const savedResults = localStorage.getItem('analysisResults');
-    
-    if (savedFiles) {
-      const files = JSON.parse(savedFiles);
-      // Restore processing state for files that were being processed
-      files.forEach((file: ProcessedFile) => {
-        if (file.processingState === 'processing') {
-          // Add back to processing queue
-          this.processingQueue.push(file);
-        }
-      });
-      this.processedFiles.next(files);
-    }
-    
-    if (savedResults) {
-      const results = JSON.parse(savedResults);
-      Object.entries(results).forEach(([key, value]) => {
-        this.analysisResults.set(key, value);
-      });
-    }
   }
 
   private startBackgroundProcessing() {
@@ -85,24 +59,32 @@ export class DataService {
           console.log(`Processing completed for: ${fileToProcess.fileObj.name}`);
           this.updateFileStatus(fileToProcess.fileObj.name, true, response.body);
           this.updateFileProcessingState(fileToProcess.fileObj.name, 'processed');
+        } else {
+          throw new Error('No response body received');
         }
       } catch (error) {
         console.error(`Error processing ${fileToProcess.fileObj.name}:`, error);
+        // Ensure error state is set and persisted
         this.updateFileProcessingState(fileToProcess.fileObj.name, 'error');
+        this.updateFileStatus(fileToProcess.fileObj.name, false);
+        // Remove from processing queue if it's still there
+        const queueIndex = this.processingQueue.findIndex(f => f.fileObj.name === fileToProcess.fileObj.name);
+        if (queueIndex !== -1) {
+          this.processingQueue.splice(queueIndex, 1);
+        }
       }
     }
     
     this.isProcessingActive = false;
   }
 
-  private updateFileProcessingState(fileName: string, state: 'uploaded' | 'processing' | 'processed' | 'error') {
+  updateFileProcessingState(fileName: string, state: 'uploaded' | 'processing' | 'processed' | 'error') {
     const currentFiles = this.processedFiles.value;
     const fileIndex = currentFiles.findIndex(f => f.fileObj.name === fileName);
     
     if (fileIndex !== -1) {
       currentFiles[fileIndex].processingState = state;
       this.processedFiles.next([...currentFiles]);
-      this.saveToLocalStorage();
     }
   }
 
@@ -129,8 +111,6 @@ export class DataService {
         this.processingQueue.push(file);
         console.log(`Added ${file.fileObj.name} to processing queue`);
       }, 1000);
-      
-      this.saveToLocalStorage();
     }
   }
 
@@ -148,7 +128,6 @@ export class DataService {
     
     // Remove analysis data
     this.analysisResults.delete(fileName);
-    this.saveToLocalStorage();
   }
 
   // Get analysis data for a specific file
@@ -159,7 +138,6 @@ export class DataService {
   // Store analysis data for a file
   storeAnalysisData(fileName: string, data: any) {
     this.analysisResults.set(fileName, data);
-    this.saveToLocalStorage();
   }
 
   // Update file processing status
@@ -174,7 +152,6 @@ export class DataService {
         this.storeAnalysisData(fileName, analysisData);
       }
       this.processedFiles.next([...currentFiles]);
-      this.saveToLocalStorage();
     }
   }
 
@@ -186,20 +163,11 @@ export class DataService {
     };
   }
 
-  // Save current state to localStorage
-  private saveToLocalStorage() {
-    localStorage.setItem('processedFiles', JSON.stringify(this.processedFiles.value));
-    const resultsObject = Object.fromEntries(this.analysisResults);
-    localStorage.setItem('analysisResults', JSON.stringify(resultsObject));
-  }
-
   // Clear all data
   clearData() {
     this.processedFiles.next([]);
     this.analysisResults.clear();
     this.processingQueue = [];
-    localStorage.removeItem('processedFiles');
-    localStorage.removeItem('analysisResults');
   }
 
   // Cleanup when service is destroyed

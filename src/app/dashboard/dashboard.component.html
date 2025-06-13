@@ -6,7 +6,8 @@
         <app-file-card 
             *ngFor="let file of getFilteredFiles()" 
             [file]="file"
-            (delete)="onFileDeleted(file.fileObj.name)">
+            (delete)="onFileDeleted(file.fileObj.name)"
+            (retry)="onFileRetry($event)">
         </app-file-card>
     </div>
 </div>
